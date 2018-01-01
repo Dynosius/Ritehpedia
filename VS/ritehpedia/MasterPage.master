@@ -1,0 +1,51 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style type="text/css" style="background-color: #CCFFFF">
+        .newStyle1 {
+            background-color: #CCFFFF;
+            background-image: url(D:\VS Projects\ritehpedia\ritehpedia\523159398.jpeg);
+            background-size: 100% 100%;
+        }
+        .left_div {
+            float: left;
+            width: 25%;
+            height: 900px;
+            background-color: aquamarine;
+        }
+        .middle_div {
+            float: left;
+            width: 50%;
+            height: 900px;
+            background-color: aqua;
+            
+        }
+        .right_div {
+            float: left;
+            width: 25%;
+            height: 900px;
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body class="newStyle1">
+    <form id="form1" runat="server" style="color: #FF6666; text-transform: none; font-style: inherit; font-weight: bold; font-family: 'Bahnschrift SemiBold'; text-align: center;">
+        Dobrodošli na Ritehpediu</form>
+    <div class="left_div">
+        Left div
+    </div>
+    <div class="middle_div">
+        Middle div
+    </div>
+    <div class="right_div">
+        Right
+    </div>
+</body>
+
+</html>
