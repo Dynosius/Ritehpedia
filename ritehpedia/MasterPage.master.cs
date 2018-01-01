@@ -11,9 +11,4 @@ public partial class MasterPage : System.Web.UI.MasterPage
     {
 
     }
-
-    protected void BulletedList1_Click(object sender, BulletedListEventArgs e)
-    {
-
-    }
 }
