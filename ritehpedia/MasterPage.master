@@ -17,6 +17,11 @@
                 </div>
             </div>
         </header>
+        <footer class="fixed-bottom" style="background-color: aquamarine">
+            <div class="container" style="text-align: center">
+                <img src="slike/riteh_logo.gif" height="100" />
+            </div>
+        </footer>
 
         <div class="container-fluid">
             <div class="row">
@@ -25,10 +30,12 @@
                         <asp:Repeater ID="MenuRepeter" runat="server">
                             <ItemTemplate>
                                 <li class="nav-item">
-                                    <a class="nav-link <%# Eval("ActiveCssClass") %>" href="<%# Eval("Url") %>"><%# Eval("Text") %></a> <!-- Eval() dohvati vrijednost varijable iz objekta (instance) -->
+                                    <a class="nav-link <%# Eval("ActiveCssClass") %>" href="<%# Eval("Url") %>"><%# Eval("Text") %></a>
+                                    <!-- Eval() dohvati vrijednost varijable iz objekta (instance) -->
                                 </li>
                             </ItemTemplate>
-                        </asp:Repeater> <!-- Repeater kontrola, poput for/while petlje -->
+                        </asp:Repeater>
+                        <!-- Repeater kontrola, poput for/while petlje -->
                     </ul>
                 </nav>
 
@@ -37,7 +44,9 @@
                 </main>
             </div>
         </div>
+
     </form>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://v4-alpha.getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

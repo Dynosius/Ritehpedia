@@ -14,6 +14,16 @@ public partial class Create_account : System.Web.UI.Page
 
     protected void Send_click(object sender, EventArgs e)
     {
-        string korisnicko_ime = username.Text;
+       
+    }
+
+    protected void Question_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void CreateUserWizard1_CreatedUser(object sender, EventArgs e)
+    {
+
     }
 }
