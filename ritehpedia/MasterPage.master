@@ -30,7 +30,7 @@
                         <asp:Repeater ID="MenuRepeter" runat="server">
                             <ItemTemplate>
                                 <li class="nav-item">
-                                    <a class="nav-link <%# Eval("ActiveCssClass") %>" href="<%# Eval("Url") %>"><%# Eval("Text") %></a>
+                                   <a class="nav-link <%# Eval("ActiveCssClass") %>" href="<%# Eval("Url") %>"><%# Eval("Text") %></a>
                                     <!-- Eval() dohvati vrijednost varijable iz objekta (instance) -->
                                 </li>
                             </ItemTemplate>
@@ -43,6 +43,20 @@
                     <asp:ContentPlaceHolder ID="ContentPlaceHolderMaster" runat="server"></asp:ContentPlaceHolder>
                 </main>
             </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+                    <ul class="nav nav-pills flex-column">
+                        <asp:Repeater runat="server" ID="dbContent">
+                            <ItemTemplate>
+                                <li class="nav-link"><%# Eval("imeKategorije") %></li>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </ul>
+                </nav>
+            </div>
+
         </div>
 
     </form>

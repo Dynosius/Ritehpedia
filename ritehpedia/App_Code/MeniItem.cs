@@ -7,7 +7,7 @@
     {
         get
         {
-            return IsActive ? "active" : "";
+            return IsActive ? "active" : ""; // vraća string "active" ako je isActive=True
         }
     }
 

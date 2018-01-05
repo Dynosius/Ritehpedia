@@ -47,7 +47,7 @@
                 <tr>
                     <td class="auto-style1">Korisničko ime:</td>
                     <td class="auto-style1">
-                        <asp:TextBox ID="Username" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="Username" runat="server" OnTextChanged="Username_TextChanged"> </asp:TextBox><!--AutoPostBack="true" , za autopostback dinamicki poziv funkcije-->
                         &nbsp;
                     </td>
 
@@ -55,7 +55,7 @@
                 <tr>
                     <td>Lozinka:</td>
                     <td>
-                        <asp:TextBox ID="Password" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="Password" runat="server" TextMode="Password"></asp:TextBox>
                         &nbsp;
                     </td>
                 </tr>
@@ -106,7 +106,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>*Broj telefona:</td>
+                    <td>*Broj telefona (09x... - sve spojeno bez znakova):</td>
                     <td dir="ltr">
                         <asp:TextBox ID="tel" runat="server"></asp:TextBox>
                     </td>
@@ -115,15 +115,15 @@
                     <td>Datum rođenja:
                     </td>
                     <td>Dan: 
-                        <asp:TextBox ID="day" runat="server" Text="1"></asp:TextBox>
+                        <asp:TextBox ID="day" runat="server"></asp:TextBox>
                         &nbsp;
                         <asp:RangeValidator ID="dvalidator" runat="server" Type="Integer" MinimumValue="1" MaximumValue="31" ErrorMessage="Unesite pravilan dan" ControlToValidate="day" SetFocusOnError="True" CssClass="errorCode"></asp:RangeValidator>
                         Mjesec:
-                        <asp:TextBox ID="month" runat="server" Text="1"></asp:TextBox>
+                        <asp:TextBox ID="month" runat="server"></asp:TextBox>
                         &nbsp;
                         <asp:RangeValidator ID="mvalidator" runat="server" Type="Integer" MinimumValue="1" MaximumValue="12" ErrorMessage="Unesite pravilan mjesec" ControlToValidate="month" CssClass="errorCode"></asp:RangeValidator>
                         Godina:
-                        <asp:TextBox ID="year" runat="server" Text="2010"></asp:TextBox>
+                        <asp:TextBox ID="year" runat="server"></asp:TextBox>
                         &nbsp;
                         <asp:RangeValidator ID="yvalidator" runat="server" Type="Integer" MinimumValue="1930" MaximumValue="2010" ErrorMessage="Unesite pravilnu godinu" ControlToValidate="year" SetFocusOnError="True" CssClass="errorCode"></asp:RangeValidator>
                     </td>
@@ -131,11 +131,11 @@
                 <tr>
                     <td class="auto-style2">Odabir kolegija</td>
                     <td class="auto-style2">
-                        <asp:DropDownList runat="server" ID="kolegijLista">
+                        <asp:DropDownList runat="server" ID="kolegijLista" AutoPostBack="True">
                             <asp:ListItem>Računarstvo</asp:ListItem>
                             <asp:ListItem>Elektrotehnika</asp:ListItem>
-                            <asp:ListItem>Strojarstvo</asp:ListItem>
                             <asp:ListItem>Brodogradnja</asp:ListItem>
+                            <asp:ListItem>Strojarstvo</asp:ListItem>
                         </asp:DropDownList>
                     </td>
                 </tr>
@@ -143,7 +143,7 @@
                 <tr>
                     <td style="text-align: center;" colspan="2">
                         <asp:Button ID="backButton" runat="server" Text="Povratak" PostBackUrl="~/Login.aspx" Width="5%" />
-                        <asp:Button ID="sendButton" runat="server" Text="Registriraj se" Width="10%" />
+                        <asp:Button ID="sendButton" runat="server" Text="Registriraj se" Width="10%" OnClick="sendButton_Click" />
                     </td>
                 </tr>
             </table>
@@ -152,6 +152,9 @@
     <p>
         &nbsp; * - polja označena zvjezdicom nisu obvezna za ispunjavanje
     </p>
+    <asp:Label runat="server" ID="ErrorMessage" ForeColor="Red">
+
+    </asp:Label>
 </body>
 </html>
 
