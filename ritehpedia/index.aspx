@@ -1,33 +1,33 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="index" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-    <style type="text/css">
-        .auto-style2 {
-            height: 23px;
-        }
-    </style>
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <table class="auto-style1">
-    <tr>
-        <td class="auto-style2" style="background-color: #3399FF; width: 200px; padding-left: 10px;">
-            <asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/index.aspx">HyperLink</asp:HyperLink>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-        </td>
-        <td class="auto-style2" style="background-color: #FFFFFF"></td>
-        <td class="auto-style2" style="background-color: #0099FF; width: 200px; padding-left: 10px;">
-            <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/index.aspx">HyperLink</asp:HyperLink>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-        </td>
-    </tr>
-</table>
+<%@ Register assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="System.Web.UI.DataVisualization.Charting" tagprefix="asp" %>
+
+<asp:Content ContentPlaceHolderID="ContentPlaceHolderMaster" runat="server">
+    <div>
+        <h1>
+            Ritehpedia
+        </h1>
+        <hr />
+        <p>
+            Dobrodošli na studentsku stranicu ritehpedia</p>
+        <hr />
+    </div>
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ritehpediaConnectionString %>" SelectCommand="SELECT [naslov], [brojPregleda], [idClanak] FROM [Clanak]"></asp:SqlDataSource>
+    <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AutoGenerateColumns="False" DataKeyNames="idClanak" DataSourceID="SqlDataSource1" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
+        <Columns>
+            <asp:BoundField DataField="naslov" HeaderText="Naslov" SortExpression="naslov" />
+            <asp:BoundField DataField="brojPregleda" HeaderText="Broj Pregleda" SortExpression="brojPregleda" />
+            <asp:BoundField DataField="idClanak" HeaderText="idClanak" InsertVisible="False" ReadOnly="True" SortExpression="idClanak" />
+            <asp:HyperLinkField runat="server" navigateUrl="~/Clanak.aspx" Text="Prikaži više"/>
+        </Columns>
+    </asp:GridView>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+    
 </asp:Content>
 
