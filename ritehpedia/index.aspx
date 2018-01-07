@@ -18,7 +18,7 @@
             <asp:BoundField DataField="naslov" HeaderText="Naslov" SortExpression="naslov" />
             <asp:BoundField DataField="brojPregleda" HeaderText="Broj Pregleda" SortExpression="brojPregleda" />
             <asp:BoundField DataField="idClanak" HeaderText="idClanak" InsertVisible="False" ReadOnly="True" SortExpression="idClanak" />
-            <asp:HyperLinkField runat="server" navigateUrl="~/Clanak.aspx" Text="Prikaži više"/>
+            <asp:HyperLinkField runat="server" navigateUrl="~/Clanak.aspx/?ID=<%# Eval('idClanak') %>" Text="Prikaži više"/>
         </Columns>
     </asp:GridView>
 <br />
