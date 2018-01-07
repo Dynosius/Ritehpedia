@@ -23,23 +23,27 @@ public partial class Login : System.Web.UI.Page
         using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
         {
             conn.Open();
-            string query = "SELECT COUNT(1) FROM Student WHERE Korisnicko_ime=@username AND Lozinka=@password";
+            string query = "SELECT idStudent FROM Student WHERE Korisnicko_ime=@username AND Lozinka=@password";
             SqlCommand sqlCmd = new SqlCommand(query, conn);
             sqlCmd.Parameters.AddWithValue("@username", usernm.Trim());
             sqlCmd.Parameters.AddWithValue("@password", passwd.Trim());
+            int ID = Convert.ToInt32(sqlCmd.ExecuteScalar());
 
-            int count = Convert.ToInt32(sqlCmd.ExecuteScalar());
+            if (ID != 0)
+            {
 
-            if (count == 1)
-            {
-                Session["username"] = usernm.Trim();
-                Response.Redirect("Home.aspx");
-            }
-            else
-            {
-                //Response.Redirect("Login.aspx");
+                SqlCommand sqlCmd2 = new SqlCommand("SELECT Student.idStudij, imeStudija FROM Studij INNER JOIN Student ON Studij.idStudij = Student.idStudij WHERE Student.idStudent =" + ID, conn);
+                SqlDataReader reader = sqlCmd2.ExecuteReader();
+                if (reader.Read())
+                {
+                    int idst = Convert.ToInt32(reader["idStudij"]);
+                    string imeStd = reader["imeStudija"].ToString();
+                    UserSession sesija = new UserSession(usernm, ID, idst, imeStd);
+                    Session["User"] = sesija;
+                    Response.Redirect("index.aspx", true);
+                }
+
             }
         }
     }
-
 }

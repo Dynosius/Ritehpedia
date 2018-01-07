@@ -3,24 +3,67 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web.UI.WebControls;
+
 public partial class MasterPage : System.Web.UI.MasterPage
 {
-    public List<MeniItem> Meni { get; set; }
-
+    private int idKolegijaIzURL;
     protected void Page_Load(object sender, EventArgs e)
     {
-        Meni = new List<MeniItem>();
-        Meni.Add(new MeniItem("Naslovna", "index.aspx"));
-        Meni.Add(new MeniItem("About", "about.aspx", true));
-        Meni.Add(new MeniItem("Login", "login.aspx"));
+        idKolegijaIzURL = Convert.ToInt32(this.Request.QueryString["idKolegija"]);
+        UserSession sesija = Session["User"] as UserSession;
 
-        MenuRepeter.DataSource = Meni;
+        List<MeniItem> meni = new List<MeniItem>();
+        meni.Add(new MeniItem("Naslovna", "index.aspx"));
+        meni.Add(new MeniItem("About", "about.aspx", true));
+        if (sesija == null)
+        {
+            meni.Add(new MeniItem("Login", "login.aspx"));
+        }
+        MenuRepeter.DataSource = meni;
         MenuRepeter.DataBind();
-        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString);
-        SqlDataAdapter adapter = new SqlDataAdapter("SELECT imeKategorije FROM Kategorija", conn);
-        DataSet ds = new DataSet();
-        adapter.Fill(ds, "imeKategorije");
-        dbContent.DataSource = ds.Tables["imeKategorije"].DefaultView;
-        dbContent.DataBind();
+
+        if (sesija != null)
+        {
+            imeStudija.Text = sesija.StudijIme + " - " + sesija.Username;
+
+            string tableName = "imeKolegija";
+            DataSet ds = LoadDataFromDB("SELECT KO.idKolegij, imeKolegija, Semestar FROM Kolegij KO INNER JOIN Studij_Kolegij SK ON SK.idKolegij = KO.idKolegij " +
+                "where SK.idStudij = " + sesija.StudijID + " ORDER BY Semestar, KO.idKolegij", tableName);
+            dbContent.DataSource = ds.Tables[tableName].DefaultView;
+            dbContent.DataBind();
+        }
+    }
+
+    public DataSet LoadDataFromDB(string query, string tablename)
+    {
+        using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
+        {
+            SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, tablename);
+            return ds;
+        }
+    }
+
+    protected void dbContent_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e) 
+    {
+        if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+        {
+            DataRowView row = (DataRowView)e.Item.DataItem;
+            int idKolegijIzRetka = Convert.ToInt32(row.Row.ItemArray[0]);
+            if (idKolegijIzRetka == idKolegijaIzURL)
+            {
+                Repeater kategorijaRepeater = e.Item.FindControl("KategorijaRepeater") as Repeater;
+                if (kategorijaRepeater != null)
+                {
+                    string tableName = "imeKategorije";
+                    DataSet ds = LoadDataFromDB("SELECT idKategorija, imeKategorije, " + idKolegijaIzURL + " AS idKolegija FROM Kategorija ORDER BY idKategorija", tableName);
+                    DataView kategorije = ds.Tables[tableName].DefaultView;
+                    kategorijaRepeater.DataSource = kategorije;
+                    kategorijaRepeater.DataBind();
+                }
+            }
+        }
     }
 }

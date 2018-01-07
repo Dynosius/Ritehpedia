@@ -10,6 +10,7 @@ using System.Configuration;
 
 public partial class index : System.Web.UI.Page
 {
+    String connString = ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
     protected void Page_Load(object sender, EventArgs e)
     {
     }

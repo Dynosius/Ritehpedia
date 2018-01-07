@@ -2,5 +2,6 @@
 
 <asp:Content ContentPlaceHolderID="ContentPlaceHolderMaster" runat="server">
     <h1>Dobrodošli na Ritehpediu!</h1>
+    
 </asp:Content>
 

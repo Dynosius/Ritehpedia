@@ -22,7 +22,9 @@
                 <img src="slike/riteh_logo.gif" height="100" />
             </div>
         </footer>
+        <asp:Label runat="server" ID="imeStudija">
 
+        </asp:Label>
         <div class="container-fluid">
             <div class="row">
                 <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
@@ -30,8 +32,22 @@
                         <asp:Repeater ID="MenuRepeter" runat="server">
                             <ItemTemplate>
                                 <li class="nav-item">
-                                   <a class="nav-link <%# Eval("ActiveCssClass") %>" href="<%# Eval("Url") %>"><%# Eval("Text") %></a>
+                                    <a class="nav-link <%# Eval("ActiveCssClass") %>" href="<%# Eval("Url") %>"><%# Eval("Text") %></a>
                                     <!-- Eval() dohvati vrijednost varijable iz objekta (instance) -->
+                                </li>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                        <asp:Repeater runat="server" ID="dbContent" OnItemDataBound="dbContent_ItemDataBound">
+                            <ItemTemplate>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="?idKolegija=<%# Eval("idKolegij") %>"><%# Eval("imeKolegija") %></a>
+                                    <asp:Repeater runat="server" ID="KategorijaRepeater">
+                                        <ItemTemplate>
+                                            <li class="nav-link">
+                                                <a class="nav-link" href="clanak.aspx?idKategorije=<%# Eval("idKategorija") %>&idKolegija=<%# Eval("idKolegija") %>"><%# Eval("imeKategorije") %></a>
+                                            </li>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
                                 </li>
                             </ItemTemplate>
                         </asp:Repeater>
@@ -44,21 +60,6 @@
                 </main>
             </div>
         </div>
-        <div class="container-fluid">
-            <div class="row">
-                <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
-                    <ul class="nav nav-pills flex-column">
-                        <asp:Repeater runat="server" ID="dbContent">
-                            <ItemTemplate>
-                                <li class="nav-link"><%# Eval("imeKategorije") %></li>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </ul>
-                </nav>
-            </div>
-
-        </div>
-
     </form>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://v4-alpha.getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>

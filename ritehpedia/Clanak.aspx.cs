@@ -5,13 +5,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Home : System.Web.UI.Page
+public partial class Clanak : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(Session["username"]==null)
-        {
-            Response.Redirect("Login.aspx");
-        }
+        string idKategorije = this.Request.QueryString["idKategorije"];
+        string idKolegija = this.Request.QueryString["idKolegija"];
     }
 }
