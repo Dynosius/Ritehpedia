@@ -10,9 +10,39 @@ using System.Configuration;
 
 public partial class index : System.Web.UI.Page
 {
-    String connString = ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
+    string idKategorije;
+    string idKolegija;
     protected void Page_Load(object sender, EventArgs e)
     {
+        idKategorije = this.Request.QueryString["idKategorije"];
+        idKolegija = this.Request.QueryString["idKolegija"];
+        if (idKategorije != null || idKolegija != null)
+        {
+            ClanakRepeater.DataSource = VratiClanke();
+            ClanakRepeater.DataBind();
+        }
+    }
+
+    protected DataView VratiClanke()
+    {
+        using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
+        {
+            conn.Open();
+            string query;
+            if (idKategorije == null)
+            {
+                query = "SELECT idClanak, naslov FROM Clanak WHERE idKolegij=" + idKolegija;
+            }
+            else
+            {
+                query = "SELECT idClanak, naslov FROM Clanak WHERE idKolegij=" + idKolegija + " AND idKategorija=" + idKategorije;
+            }
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter sqlData = new SqlDataAdapter(query, conn);
+            sqlData.Fill(ds, "clanci");
+            return ds.Tables["clanci"].DefaultView;
+        }
     }
 
 }

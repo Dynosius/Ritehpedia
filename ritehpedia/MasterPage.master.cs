@@ -16,10 +16,13 @@ public partial class MasterPage : System.Web.UI.MasterPage
         List<MeniItem> meni = new List<MeniItem>();
         meni.Add(new MeniItem("Naslovna", "index.aspx"));
         meni.Add(new MeniItem("About", "about.aspx", true));
+
         if (sesija == null)
         {
             meni.Add(new MeniItem("Login", "login.aspx"));
         }
+        meni.Add(new MeniItem("Vijesti", "vijesti.aspx"));
+        meni.Add(new MeniItem("Kontakti", "kontakt.aspx"));
         MenuRepeter.DataSource = meni;
         MenuRepeter.DataBind();
 
@@ -33,6 +36,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
             dbContent.DataSource = ds.Tables[tableName].DefaultView;
             dbContent.DataBind();
         }
+
     }
 
     public DataSet LoadDataFromDB(string query, string tablename)
@@ -46,7 +50,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
         }
     }
 
-    protected void dbContent_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e) 
+    protected void dbContent_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
     {
         if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
         {
