@@ -32,6 +32,8 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 "where SK.idStudij = " + sesija.StudijID + " ORDER BY Semestar, KO.idKolegij", tableName);
             dbContent.DataSource = ds.Tables[tableName].DefaultView;
             dbContent.DataBind();
+
+            ProfileBtn.Visible = true;
         }
     }
 
@@ -46,7 +48,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
         }
     }
 
-    protected void dbContent_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e) 
+    protected void dbContent_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
     {
         if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
         {
@@ -65,5 +67,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 }
             }
         }
+    }
+
+    protected void profilClicked(object sender, EventArgs e)
+    {
+        Response.Redirect("profil.aspx");
     }
 }
