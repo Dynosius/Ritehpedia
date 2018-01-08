@@ -35,6 +35,8 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 "where SK.idStudij = " + sesija.StudijID + " ORDER BY Semestar, KO.idKolegij", tableName);
             dbContent.DataSource = ds.Tables[tableName].DefaultView;
             dbContent.DataBind();
+
+            ProfileBtn.Visible = true;
         }
 
     }
@@ -69,5 +71,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 }
             }
         }
+    }
+
+    protected void profilClicked(object sender, EventArgs e)
+    {
+        Response.Redirect("profil.aspx");
     }
 }

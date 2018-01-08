@@ -18,7 +18,7 @@ public partial class Login : System.Web.UI.Page
 
     protected void LoginButton_Click(object sender, EventArgs e)
     {
-        string usernm = ((TextBox)LoginControl.FindControl("UserName")).Text.ToLower();
+        string usernm = ((TextBox)LoginControl.FindControl("UserName")).Text;
         string passwd = ((TextBox)LoginControl.FindControl("Password")).Text;
         using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
         {
