@@ -8,10 +8,11 @@ using System.Web.UI.WebControls;
 public partial class MasterPage : System.Web.UI.MasterPage
 {
     private int idKolegijaIzURL;
+    UserSession sesija;
     protected void Page_Load(object sender, EventArgs e)
     {
         idKolegijaIzURL = Convert.ToInt32(this.Request.QueryString["idKolegija"]);
-        UserSession sesija = Session["User"] as UserSession;
+        sesija = Session["User"] as UserSession;
 
         List<MeniItem> meni = new List<MeniItem>();
         meni.Add(new MeniItem("Naslovna", "index.aspx"));
@@ -37,6 +38,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
             dbContent.DataBind();
 
             ProfileBtn.Visible = true;
+            NoviClanakBtn.Visible = true;
         }
 
     }
@@ -76,5 +78,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
     protected void profilClicked(object sender, EventArgs e)
     {
         Response.Redirect("profil.aspx");
+    }
+
+    protected void NoviClanakBtn_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("NoviClanak.aspx");
     }
 }

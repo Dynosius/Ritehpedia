@@ -38,7 +38,7 @@ public partial class Profil : System.Web.UI.Page
                     SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCmd.CommandText, conn);
                     sqlAdapter.Fill(ds, "korisnik");
                 }
-                foreach (DataRow myRow in ds.Tables[0].Rows)
+                foreach (DataRow myRow in ds.Tables["korisnik"].Rows)
                 {
                     ime = myRow["ime"].ToString();
                     prezime = myRow["prezime"].ToString();
@@ -62,15 +62,8 @@ public partial class Profil : System.Web.UI.Page
         using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
         {
             connection.Open();
-            //string queryString = "UPDATE Student SET Ime='@name', Prezime='@lastname', Adresa='@address', Grad='@city', broj_tel='@tel' WHERE idStudent=@id";
             string queryString = "UPDATE Student SET Ime='" + txt1.Text + "', Prezime='" + txt2.Text + "', Adresa='" + txt3.Text + "', Grad='" + txt4.Text + "', broj_tel='" + txt5.Text + "' WHERE idStudent=" + sesija.UserID;
             SqlCommand sqlCmd = new SqlCommand(queryString, connection);
-            //sqlCmd.Parameters.AddWithValue("@name", txt1.Text.Trim());
-            //sqlCmd.Parameters.AddWithValue("@lastname", txt2.Text.Trim());
-            //sqlCmd.Parameters.AddWithValue("@address", txt3.Text.Trim());
-            //sqlCmd.Parameters.AddWithValue("@city", txt4.Text.Trim());
-            //sqlCmd.Parameters.AddWithValue("@tel", txt5.Text.Trim());
-            //sqlCmd.Parameters.AddWithValue("@id", userID);
             string test = queryString;
             int x = sqlCmd.ExecuteNonQuery();
             if(x > 0)

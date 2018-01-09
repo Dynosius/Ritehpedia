@@ -2,5 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolderMaster" runat="Server">
     <asp:Label runat="server" ID="clanakLabel"></asp:Label>
+    <br />
+    <asp:Button runat="server" ID="DeleteButton" Text="Izbriši članak" OnClick="DeleteButton_Click" Visible="false" />
 </asp:Content>
 

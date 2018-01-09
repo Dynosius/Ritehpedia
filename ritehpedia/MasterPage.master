@@ -17,7 +17,8 @@
                 </div>
                 <div>
                     <asp:Button runat="server" ID="ProfileBtn" Text="Profil" CssClass="btn btn-primary" OnClick="profilClicked" Style="float: right;" Width="96px" Visible="false" />
-                </div>
+                    <asp:Button runat="server" ID="NoviClanakBtn" Text="Novi Članak" CssClass="btn btn-primary" OnClick="NoviClanakBtn_Click" Style="float:right;" Visible="false" />
+                    </div>
             </div>
         </header>
         <footer class="fixed-bottom" style="background-color: aquamarine">
