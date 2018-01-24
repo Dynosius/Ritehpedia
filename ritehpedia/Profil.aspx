@@ -7,23 +7,27 @@
     <table>
         <tr>
             <td><asp:Label runat="server" ID="Label1">Ime:&nbsp</asp:Label></td>
-            <td><asp:TextBox runat="server" ID="txt1"></asp:TextBox></td>
+            <td><asp:TextBox runat="server" ID="txt1"></asp:TextBox>&nbsp;
+                <asp:RequiredFieldValidator ID="ValidatorIme" runat="server" ErrorMessage="Molimo unesite vaše ime" ControlToValidate="txt1" ForeColor="Red"></asp:RequiredFieldValidator>
+            </td>
         </tr>
         <tr>
             <td><asp:Label runat="server" ID="Label2">Prezime:&nbsp</asp:Label></td>
-            <td><asp:TextBox runat="server" ID="txt2"></asp:TextBox></td>
+            <td><asp:TextBox runat="server" ID="txt2"></asp:TextBox>&nbsp;
+                <asp:RequiredFieldValidator ID="ValidatorPrezime" runat="server" ErrorMessage="Molimo unesite vaše prezime" ControlToValidate="txt2" ForeColor="Red"></asp:RequiredFieldValidator>
+            </td>
         </tr>
         <tr>
             <td><asp:Label runat="server" ID="Label3">Adresa:&nbsp</asp:Label></td>
-            <td><asp:TextBox runat="server" ID="txt3"></asp:TextBox></td>
+            <td><asp:TextBox runat="server" ID="txt3"></asp:TextBox>&nbsp; </td>
         </tr>
         <tr>
             <td><asp:Label runat="server" ID="Label4">Grad:&nbsp</asp:Label></td>
-            <td><asp:TextBox runat="server" ID="txt4"></asp:TextBox></td>
+            <td><asp:TextBox runat="server" ID="txt4"></asp:TextBox>&nbsp; </td>
         </tr>
         <tr>
             <td><asp:Label runat="server" ID="Label5">Broj telefona:&nbsp</asp:Label></td>
-            <td><asp:TextBox runat="server" ID="txt5"></asp:TextBox></td>
+            <td><asp:TextBox runat="server" ID="txt5"></asp:TextBox>&nbsp; </td>
         </tr>
     </table>
     <asp:Button runat="server" Text="Primjeni izmjene" OnClick="IzmjeniPodatke"/>

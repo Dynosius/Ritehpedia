@@ -35,6 +35,9 @@
         .auto-style2 {
             height: 39px;
         }
+        .auto-style3 {
+            height: 42px;
+        }
     </style>
 </head>
 <body>
@@ -49,14 +52,16 @@
                     <td class="auto-style1">
                         <asp:TextBox ID="Username" runat="server" OnTextChanged="Username_TextChanged"> </asp:TextBox><!--AutoPostBack="true" , za autopostback dinamicki poziv funkcije-->
                         &nbsp;
+                        <asp:RequiredFieldValidator ID="ValidatorName" runat="server" ControlToValidate="Username" ErrorMessage="Molimo unesite vaši username" ForeColor="Red"></asp:RequiredFieldValidator>
                     </td>
 
                 </tr>
                 <tr>
-                    <td>Lozinka:</td>
-                    <td>
+                    <td class="auto-style3">Lozinka:</td>
+                    <td class="auto-style3">
                         <asp:TextBox ID="Password" runat="server" TextMode="Password"></asp:TextBox>
                         &nbsp;
+                        <asp:RequiredFieldValidator ID="ValidatorLozinka" runat="server" ErrorMessage="Molimo unesite vašu lozinku" ControlToValidate="Password" ForeColor="Red"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
@@ -64,6 +69,8 @@
                     <td>
                         <asp:TextBox ID="Confirmpass" runat="server" TextMode="Password"></asp:TextBox>
                         &nbsp;
+                        <asp:RequiredFieldValidator ID="ValidatorLozinka2" runat="server" ErrorMessage="Molimo unesite ponovo lozinku" ControlToValidate="Confirmpass" ForeColor="Red"></asp:RequiredFieldValidator>
+                        <asp:CompareValidator ID="CompareValidatorlozinka" runat="server" ErrorMessage="Unijeli ste pogrešnu lozinku" ForeColor="Red" ControlToCompare="Password" ControlToValidate="Confirmpass"></asp:CompareValidator>
                     </td>
                 </tr>
                 <tr>
@@ -73,6 +80,7 @@
 
                         </asp:TextBox>
                         &nbsp;
+                        <asp:RequiredFieldValidator ID="ValidatorIme" runat="server" ErrorMessage="Molimo unesite vaše ime" ForeColor="Red" ControlToValidate="Name"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
@@ -82,6 +90,7 @@
 
                         </asp:TextBox>
                         &nbsp;
+                        <asp:RequiredFieldValidator ID="ValidatorPrezime" runat="server" ErrorMessage="Molimo unesite vaše ime" ForeColor="Red" ControlToValidate="Name"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
@@ -90,7 +99,8 @@
                         <asp:TextBox ID="Email" runat="server" OnTextChanged="Email_TextChanged">
                         </asp:TextBox>
                         &nbsp;
-                        <asp:RegularExpressionValidator ID="regexEmailValid" runat="server" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ControlToValidate="Email" ErrorMessage="Molimo unesite ispravan mail"></asp:RegularExpressionValidator>
+                        <asp:RequiredFieldValidator ID="ValidatorMail" runat="server" ErrorMessage="Molimo unesite vaši email" ForeColor="Red" ControlToValidate="Email"></asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="regexEmailValid" runat="server" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ControlToValidate="Email" ErrorMessage="Molimo unesite ispravan mail" ForeColor="Red"></asp:RegularExpressionValidator>
                     </td>
                 </tr>
                 <tr>
