@@ -8,7 +8,7 @@
         <asp:Repeater runat="server" ID="ClanakRepeater">
             <ItemTemplate>
                 <li class="nav-item">
-                   <a href="Clanak.aspx?idClanak=<%# Eval("idClanak") %>"><%# Eval("naslov") %></a>
+                   <a href="Clanak.aspx?idClanak=<%# Eval("idClanak") %>" onserverclick="prikazIncrement(<%# Eval("idClanak") %>)"><%# Eval("naslov") %></a>
 
                 </li>
             </ItemTemplate>

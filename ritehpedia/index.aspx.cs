@@ -45,4 +45,28 @@ public partial class index : System.Web.UI.Page
         }
     }
 
+    protected void prikazIncrement(string id)
+    {
+        string query;
+        int result;
+        using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
+        {
+            query = "SELECT brojPregleda FROM Clanak WHERE idClanak = " + id; //izmijenio
+            SqlCommand com = new SqlCommand(query,conn);
+            SqlDataReader read = com.ExecuteReader();
+            if (read.IsDBNull(read.GetOrdinal("brojPregleda")))
+            {
+                result = 0;
+            }
+            else
+            {
+                result = read.GetInt16(0);
+            }
+            result ++;
+
+            query = "UPDATE Clanak SET brojPregleda= " + result + " WHERE idClanak= " +id;
+            com = new SqlCommand(query, conn);
+            com.ExecuteNonQuery();
+        }
+    }
 }

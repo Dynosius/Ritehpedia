@@ -26,7 +26,6 @@ public partial class MasterPage : System.Web.UI.MasterPage
         meni.Add(new MeniItem("Kontakti", "kontakt.aspx"));
         MenuRepeter.DataSource = meni;
         MenuRepeter.DataBind();
-
         if (sesija != null)
         {
             imeStudija.Text = sesija.StudijIme + " - " + sesija.Username;

@@ -23,7 +23,9 @@ public partial class Clanak : System.Web.UI.Page
         //prikaz clanka
         if (idClanka != null)
         {
-            clanakLabel.Text = WhatQueryReturns();
+            naslovLabel.Text = WhatQueryReturns("naslov");
+            clanakLabel.Text = WhatQueryReturns("sadrzaj");
+            brPregledaLabel.Text = "Broj pregleda: " + VratiBrojPregleda();
             downloadLabel.Text = AttachmentName(); //prikaz attachment
         }
 
@@ -52,19 +54,20 @@ public partial class Clanak : System.Web.UI.Page
         }
     }
 
-    protected string WhatQueryReturns()
+    protected string WhatQueryReturns(string what)
     {
         using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
         {
             conn.Open();
             string query, result = "";
-            query = "SELECT sadrzaj FROM Clanak WHERE idClanak =" + idClanka;
+            query = "SELECT " + what + " FROM Clanak WHERE idClanak =" + idClanka;
             SqlCommand sqlCmd = new SqlCommand(query, conn);
             SqlDataReader sqlRead = sqlCmd.ExecuteReader();
             if (sqlRead.HasRows)
             {
                 while (sqlRead.Read())
                 {
+                    if (sqlRead.IsDBNull(sqlRead.GetOrdinal(what))) { return ""; }
                     result = sqlRead.GetString(0);
                 }
             }
@@ -95,6 +98,30 @@ public partial class Clanak : System.Web.UI.Page
             //prikaz download
             if (result != "") { LinkButton1.Visible = true; }
             return result;
+        }
+    }
+
+    protected string VratiBrojPregleda()
+    {
+        using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
+        {
+            conn.Open();
+            string query;
+            int result = 0;
+            query = "SELECT brojPregleda FROM Clanak WHERE idClanak =" + idClanka;
+            SqlCommand sqlCmd = new SqlCommand(query, conn);
+            SqlDataReader sqlRead = sqlCmd.ExecuteReader();
+            if (sqlRead == null) { return ""; }
+            if (sqlRead.HasRows)
+            {
+                while (sqlRead.Read())
+                {
+                    if (sqlRead.IsDBNull(sqlRead.GetOrdinal("brojPregleda"))) { return "0"; }
+                    result = sqlRead.GetInt16(0);
+                }
+            }
+            sqlRead.Close();
+            return result.ToString();
         }
     }
 
