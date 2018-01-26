@@ -7,12 +7,20 @@
         <br />
         <asp:TextBox ID="naslovClanka" runat="server">
 
-        </asp:TextBox><br />
+        </asp:TextBox>
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="naslovClanka" ErrorMessage="RequiredFieldValidator" ForeColor="Red"></asp:RequiredFieldValidator>
+        <br />
 
         Tekst:<br />
         <textarea runat="server" id="textareaNoviClanak" style="width: 806px; height: 207px">
 
         </textarea>
+        <br />
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="textareaNoviClanak" ErrorMessage="RequiredFieldValidator" ForeColor="Red"></asp:RequiredFieldValidator>
+        <br />
+        Upload file:<br />
+        <asp:FileUpload ID="FileUpload1" runat="server" />
+        <br />
         <br />
         Kolegij: <asp:DropDownList runat="server" ID="KolegijiDropDown">
 
