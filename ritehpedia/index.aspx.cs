@@ -45,7 +45,7 @@ public partial class index : System.Web.UI.Page
         }
     }
 
-    protected void prikazIncrement(string id)
+    protected void prikazIncrement(string id) //ne radi increment broja prikaza
     {
         string query;
         int result;

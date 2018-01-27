@@ -38,6 +38,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
             ProfileBtn.Visible = true;
             NoviClanakBtn.Visible = true;
+            TraziButton.Visible = true;
         }
 
     }
@@ -81,6 +82,12 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
     protected void NoviClanakBtn_Click(object sender, EventArgs e)
     {
+        Response.Redirect("NoviClanak.aspx");
+    }
+
+    protected void Trazi_Click(object sender, EventArgs e) //dodano, nije implementirano
+    {
+        string trazi = TraziText.Text;
         Response.Redirect("NoviClanak.aspx");
     }
 }

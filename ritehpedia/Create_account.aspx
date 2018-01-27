@@ -44,15 +44,20 @@
     <h1 style="text-align: center; background-color: #CCFFFF;">Izradite korisnički račun</h1>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
+        <asp:UpdatePanel runat="server">
+        <ContentTemplate>
         <div>
             <table class="table">
                 <tr>
                     <td class="auto-style1">Korisničko ime:</td>
                     <td class="auto-style1">
-                        <asp:TextBox ID="Username" runat="server" OnTextChanged="Username_TextChanged"> </asp:TextBox><!--AutoPostBack="true" , za autopostback dinamicki poziv funkcije-->
-                        &nbsp;
-                        <asp:RequiredFieldValidator ID="ValidatorName" runat="server" ControlToValidate="Username" ErrorMessage="Molimo unesite vaši username" ForeColor="Red"></asp:RequiredFieldValidator>
+                        <asp:TextBox ID="Username" runat="server" OnTextChanged="Username_TextChanged" Autopostback = "true"> </asp:TextBox><!--AutoPostBack="true" , za autopostback dinamicki poziv funkcije-->
+                        &nbsp;<asp:Label ID="LabelUsernamePostoji" runat="server" ForeColor="Red" Text="Username već postoji" Visible="False"></asp:Label>
+                        &nbsp;<asp:RequiredFieldValidator ID="ValidatorName" runat="server" ControlToValidate="Username" ErrorMessage="Molimo unesite vaši username" ForeColor="Red"></asp:RequiredFieldValidator>
                     </td>
 
                 </tr>
@@ -90,7 +95,7 @@
 
                         </asp:TextBox>
                         &nbsp;
-                        <asp:RequiredFieldValidator ID="ValidatorPrezime" runat="server" ErrorMessage="Molimo unesite vaše ime" ForeColor="Red" ControlToValidate="Name"></asp:RequiredFieldValidator>
+                        <asp:RequiredFieldValidator ID="ValidatorPrezime" runat="server" ErrorMessage="Molimo unesite vaše prezime" ForeColor="Red" ControlToValidate="Surname"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
@@ -136,6 +141,10 @@
                         <asp:TextBox ID="year" runat="server"></asp:TextBox>
                         &nbsp;
                         <asp:RangeValidator ID="yvalidator" runat="server" Type="Integer" MinimumValue="1930" MaximumValue="2010" ErrorMessage="Unesite pravilnu godinu" ControlToValidate="year" SetFocusOnError="True" CssClass="errorCode"></asp:RangeValidator>
+                        <br />
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="day" ErrorMessage="Molimo unesite dan" ForeColor="Red"></asp:RequiredFieldValidator>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="month" ErrorMessage="Molimo unesite mjesec" ForeColor="Red"></asp:RequiredFieldValidator>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="year" ErrorMessage="Molimo unesite godinu" ForeColor="Red"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
                 <tr>
@@ -152,12 +161,14 @@
                 <!-- button -->
                 <tr>
                     <td style="text-align: center;" colspan="2">
-                        <asp:Button ID="backButton" runat="server" Text="Povratak" PostBackUrl="~/Login.aspx" Width="5%" />
+                        <asp:Button ID="backButton" runat="server" Text="Povratak" PostBackUrl="~/Login.aspx" Width="5%" CausesValidation="False"/>
                         <asp:Button ID="sendButton" runat="server" Text="Registriraj se" Width="10%" OnClick="sendButton_Click" />
                     </td>
                 </tr>
             </table>
         </div>
+        </ContentTemplate>
+        </asp:UpdatePanel>
     </form>
     <p>
         &nbsp; * - polja označena zvjezdicom nisu obvezna za ispunjavanje

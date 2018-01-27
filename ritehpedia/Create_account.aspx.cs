@@ -95,9 +95,19 @@ public partial class Create_account : System.Web.UI.Page
         return imaLi;
     }
 
-    protected void Username_TextChanged(object sender, EventArgs e)
+    protected void Username_TextChanged(object sender, EventArgs e) //dinamički provjerava je li ime dostupno
     {
-        //Username.Text = "desba";
-        //TODO: Staviti da se dinamički provjerava je li ime dostupno
+        //string Uname = Username.Text;
+        Int32 count = 0;
+        using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
+        {
+            connection.Open();
+            String query = "SELECT count(*) FROM Student WHERE Korisnicko_ime = '" + Username.Text.Trim()+ "'";
+            SqlCommand sqlCmd = new SqlCommand(query, connection);
+            count = (Int32)sqlCmd.ExecuteScalar();
+        }
+
+        if (count > 0) { LabelUsernamePostoji.Visible = true; }
+        else { LabelUsernamePostoji.Visible = false; }
     }
 }

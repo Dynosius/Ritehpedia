@@ -16,9 +16,15 @@
                     <img src="slike/riteh_naslovnica.png" height="100" />
                 </div>
                 <div>
-                    <asp:Button runat="server" ID="ProfileBtn" Text="Profil" CssClass="btn btn-primary" OnClick="profilClicked" Style="float: right;" Width="96px" Visible="false" />
-                    <asp:Button runat="server" ID="NoviClanakBtn" Text="Novi Članak" CssClass="btn btn-primary" OnClick="NoviClanakBtn_Click" Style="float:right;" Visible="false" />
+                    <!--CausesValidation="False" obavezno-->
+                    <asp:Button runat="server" ID="ProfileBtn" Text="Profil" CssClass="btn btn-primary" OnClick="profilClicked" Style="float: right;" Width="96px" Visible="false" CausesValidation="False"/>
+                    <asp:Button runat="server" ID="NoviClanakBtn" Text="Novi Članak" CssClass="btn btn-primary" OnClick="NoviClanakBtn_Click" Style="float:right;" Visible="false" CausesValidation="False"/>
+                    <!--Dodana trazilica-->
+                    <div>
+                        <asp:Button runat="server" ID="TraziButton" Text="Trazi" CssClass="btn btn-primary" OnClick="Trazi_Click" Style="float:right;" Visible="false" Width="83px" CausesValidation="False"/>
+                        <asp:TextBox runat="server" ID="TraziText" Visible="false" CssClass="float-right" Width="193px"></asp:TextBox>
                     </div>
+                </div>
             </div>
         </header>
         <footer class="fixed-bottom" style="background-color: aquamarine">
