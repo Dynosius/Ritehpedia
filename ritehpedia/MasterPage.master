@@ -50,7 +50,7 @@
                         <asp:Repeater runat="server" ID="dbContent" OnItemDataBound="dbContent_ItemDataBound">
                             <ItemTemplate>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="?idKolegija=<%# Eval("idKolegij") %>"><%# Eval("imeKolegija") %></a>
+                                    <a class="nav-link" href="index.aspx?idKolegija=<%# Eval("idKolegij") %>"><%# Eval("imeKolegija") %></a>
                                     <asp:Repeater runat="server" ID="KategorijaRepeater">
                                         <ItemTemplate>
                                             <li class="nav-link">

@@ -65,12 +65,13 @@ public partial class NoviClanak : System.Web.UI.Page
         using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
         {
             conn.Open();
-            string queryStr = "INSERT INTO Clanak (idKolegij, idKategorija, naslov, sadrzaj, attachment, fileName, contentType) VALUES (@idKolegija, @idKategorija, @naslov, @sadrzaj, @attachment, @fileName, @contentType)";
+            string queryStr = "INSERT INTO Clanak (idKolegij, idKategorija, naslov, sadrzaj, attachment, fileName, contentType, tags) VALUES (@idKolegija, @idKategorija, @naslov, @sadrzaj, @attachment, @fileName, @contentType, @tags)";
             
             SqlCommand sqlCmd = new SqlCommand(queryStr, conn);
             string kolegij = KolegijiDropDown.SelectedValue;
             string kategorija = KategorijeDropDown.SelectedValue;
             string naslov = naslovClanka.Text.Trim();
+            string tags = naslov.ToLower().Replace(" ",";");
             sqlCmd.Parameters.AddWithValue("@idKolegija", kolegij);
             sqlCmd.Parameters.AddWithValue("@idKategorija", kategorija);
             sqlCmd.Parameters.AddWithValue("@naslov", naslov);
@@ -78,6 +79,7 @@ public partial class NoviClanak : System.Web.UI.Page
             sqlCmd.Parameters.AddWithValue("@attachment", bytes);
             sqlCmd.Parameters.AddWithValue("@fileName", filename);
             sqlCmd.Parameters.AddWithValue("@contentType", contentType);
+            sqlCmd.Parameters.AddWithValue("@tags", tags);
             
             int x = sqlCmd.ExecuteNonQuery();
             if (x > 0)
