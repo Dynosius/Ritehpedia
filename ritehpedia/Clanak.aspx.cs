@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using System.IO;
 
 public partial class Clanak : System.Web.UI.Page
 {
@@ -18,10 +19,16 @@ public partial class Clanak : System.Web.UI.Page
     {
         sesija = Session["User"] as UserSession;
         idClanka = this.Request.QueryString["idClanak"];
+        LinkButton1.Visible = false;
+        //prikaz clanka
         if (idClanka != null)
         {
-            clanakLabel.Text = WhatQueryReturns();
+            naslovLabel.Text = WhatQueryReturns("naslov");
+            clanakLabel.Text = WhatQueryReturns("sadrzaj");
+            brPregledaLabel.Text = "Broj pregleda: " + VratiBrojPregleda();
+            downloadLabel.Text = AttachmentName(); //prikaz attachment
         }
+
         idKolegija = this.Request.QueryString["idKolegija"];
         if (idKolegija == null)
         {
@@ -47,24 +54,74 @@ public partial class Clanak : System.Web.UI.Page
         }
     }
 
-    protected string WhatQueryReturns()
+    protected string WhatQueryReturns(string what)
     {
         using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
         {
             conn.Open();
             string query, result = "";
-            query = "SELECT sadrzaj FROM Clanak WHERE idClanak =" + idClanka;
+            query = "SELECT " + what + " FROM Clanak WHERE idClanak =" + idClanka;
             SqlCommand sqlCmd = new SqlCommand(query, conn);
             SqlDataReader sqlRead = sqlCmd.ExecuteReader();
             if (sqlRead.HasRows)
             {
                 while (sqlRead.Read())
                 {
+                    if (sqlRead.IsDBNull(sqlRead.GetOrdinal(what))) { return ""; }
                     result = sqlRead.GetString(0);
                 }
             }
             sqlRead.Close();
             return result;
+        }
+    }
+
+    protected string AttachmentName()
+    {
+        using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
+        {
+            conn.Open();
+            string query, result = "";
+            query = "SELECT fileName FROM Clanak WHERE idClanak =" + idClanka;
+            SqlCommand sqlCmd = new SqlCommand(query, conn);
+            SqlDataReader sqlRead = sqlCmd.ExecuteReader();
+            if (sqlRead == null) { return ""; }
+            if (sqlRead.HasRows)
+            {
+                while (sqlRead.Read())
+                {
+                    if (sqlRead.IsDBNull(sqlRead.GetOrdinal("fileName"))) { return ""; }
+                    result = sqlRead.GetString(0);
+                }
+            }
+            sqlRead.Close();
+            //prikaz download
+            if (result != "") { LinkButton1.Visible = true; }
+            return result;
+        }
+    }
+
+    protected string VratiBrojPregleda()
+    {
+        using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
+        {
+            conn.Open();
+            string query;
+            int result = 0;
+            query = "SELECT brojPregleda FROM Clanak WHERE idClanak =" + idClanka;
+            SqlCommand sqlCmd = new SqlCommand(query, conn);
+            SqlDataReader sqlRead = sqlCmd.ExecuteReader();
+            if (sqlRead == null) { return ""; }
+            if (sqlRead.HasRows)
+            {
+                while (sqlRead.Read())
+                {
+                    if (sqlRead.IsDBNull(sqlRead.GetOrdinal("brojPregleda"))) { return "0"; }
+                    result = sqlRead.GetInt16(0);
+                }
+            }
+            sqlRead.Close();
+            return result.ToString();
         }
     }
 
@@ -82,5 +139,39 @@ public partial class Clanak : System.Web.UI.Page
                 clanakLabel.Text = "Uspješno izbrisano!";
             }
         }
+    }
+
+    protected void DownloadFile(object sender, EventArgs e)
+    {
+        byte[] bytes;
+        string fileName, contentType;
+        string constr = ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
+        using (SqlConnection con = new SqlConnection(constr))
+        {
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandText = "select fileName, attachment, contentType from Clanak where idClanak=@idClanak";
+                cmd.Parameters.AddWithValue("@idClanak", idClanka);
+                cmd.Connection = con;
+                con.Open();
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    bytes = (byte[])sdr["attachment"];
+                    contentType = sdr["contentType"].ToString();
+                    fileName = sdr["fileName"].ToString();
+                }
+                con.Close();
+            }
+        }
+        Response.Clear();
+        Response.Buffer = true;
+        Response.Charset = "";
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        Response.ContentType = contentType;
+        Response.AppendHeader("Content-Disposition", "attachment; filename=" + fileName);
+        Response.BinaryWrite(bytes);
+        Response.Flush();
+        Response.End();
     }
 }

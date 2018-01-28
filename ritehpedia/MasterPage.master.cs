@@ -15,18 +15,17 @@ public partial class MasterPage : System.Web.UI.MasterPage
         sesija = Session["User"] as UserSession;
 
         List<MeniItem> meni = new List<MeniItem>();
-        meni.Add(new MeniItem("Naslovna", "index.aspx"));
-        meni.Add(new MeniItem("About", "about.aspx", true));
+        meni.Add(new MeniItem("Naslovna", "../index.aspx"));
+        meni.Add(new MeniItem("About", "../about.aspx", true));
 
         if (sesija == null)
         {
-            meni.Add(new MeniItem("Login", "login.aspx"));
+            meni.Add(new MeniItem("Login", "../login.aspx"));
         }
-        meni.Add(new MeniItem("Vijesti", "vijesti.aspx"));
-        meni.Add(new MeniItem("Kontakti", "kontakt.aspx"));
+        meni.Add(new MeniItem("Vijesti", "../vijesti.aspx"));
+        meni.Add(new MeniItem("Kontakti", "../kontakt.aspx"));
         MenuRepeter.DataSource = meni;
         MenuRepeter.DataBind();
-
         if (sesija != null)
         {
             imeStudija.Text = sesija.StudijIme + " - " + sesija.Username;

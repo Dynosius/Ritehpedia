@@ -42,7 +42,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <asp:HyperLink ID="CreateUserLink" runat="server" NavigateUrl="~/Create_account.aspx">Novi korisnički račun</asp:HyperLink>
+                                            <asp:HyperLink ID="CreateUserLink" runat="server" NavigateUrl="Create_account.aspx">Novi korisnički račun</asp:HyperLink>
                                         </td>
                                     </tr>
                                 </table>

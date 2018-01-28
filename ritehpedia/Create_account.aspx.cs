@@ -15,11 +15,6 @@ public partial class Create_account : System.Web.UI.Page
 
     }
 
-    protected void Email_TextChanged(object sender, EventArgs e)
-    {
-
-    }
-
     protected void sendButton_Click(object sender, EventArgs e)
     {
         string Uname = Username.Text;
@@ -36,7 +31,7 @@ public partial class Create_account : System.Web.UI.Page
         if (CheckCredentials(Uname, emailcheck) == false)
         {
             InsertData(Uname, pass, name, lastname, city, address, emailcheck, phone, date, studijID);
-            Response.Redirect("RegSuccess.aspx");
+            FormsAuthentication.RedirectToLoginPage();
         }
         else
         {
@@ -46,22 +41,27 @@ public partial class Create_account : System.Web.UI.Page
 
     private void InsertData(string Uname, string pass, string name, string lastname, string city, string adress, string email, string phone, string date, int studijID)
     {
-        using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
+        if (Page.IsValid)
         {
-            connection.Open();
-            String query = "INSERT INTO dbo.Student (Korisnicko_ime, Lozinka, Ime, Prezime, Adresa, Grad, Datum_rod, Email, broj_tel, idStudij) VALUES (@Uname, @pass, @name, @lastname, @adress, @city, @date, @email, @phone, @studijID)";
-            SqlCommand sqlCmd = new SqlCommand(query, connection);
-            sqlCmd.Parameters.AddWithValue("@Uname", Uname.Trim());
-            sqlCmd.Parameters.AddWithValue("@pass", pass.Trim());
-            sqlCmd.Parameters.AddWithValue("@name", name.Trim());
-            sqlCmd.Parameters.AddWithValue("@lastname", lastname.Trim());
-            sqlCmd.Parameters.AddWithValue("@city", city.Trim());
-            sqlCmd.Parameters.AddWithValue("@adress", adress.Trim());
-            sqlCmd.Parameters.AddWithValue("@phone", phone.Trim());
-            sqlCmd.Parameters.AddWithValue("@date", date.Trim());
-            sqlCmd.Parameters.AddWithValue("@email", email.Trim());
-            sqlCmd.Parameters.AddWithValue("@studijID", studijID);
-            sqlCmd.ExecuteNonQuery();
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
+            {
+                
+                string EncryptedPass = FormsAuthentication.HashPasswordForStoringInConfigFile(pass.Trim(), "SHA1");
+                connection.Open();
+                String query = "INSERT INTO dbo.Student (Korisnicko_ime, Lozinka, UlogaID, Ime, Prezime, Adresa, Grad, Datum_rod, Email, broj_tel, idStudij) VALUES (@Uname, @pass, 3, @name, @lastname, @adress, @city, @date, @email, @phone, @studijID)";
+                SqlCommand sqlCmd = new SqlCommand(query, connection);
+                sqlCmd.Parameters.AddWithValue("@Uname", Uname.Trim());
+                sqlCmd.Parameters.AddWithValue("@pass", EncryptedPass);
+                sqlCmd.Parameters.AddWithValue("@name", name.Trim());
+                sqlCmd.Parameters.AddWithValue("@lastname", lastname.Trim());
+                sqlCmd.Parameters.AddWithValue("@city", city.Trim());
+                sqlCmd.Parameters.AddWithValue("@adress", adress.Trim());
+                sqlCmd.Parameters.AddWithValue("@phone", phone.Trim());
+                sqlCmd.Parameters.AddWithValue("@date", date.Trim());
+                sqlCmd.Parameters.AddWithValue("@email", email.Trim());
+                sqlCmd.Parameters.AddWithValue("@studijID", studijID);
+                sqlCmd.ExecuteNonQuery();
+            }
         }
     }
 
@@ -95,9 +95,8 @@ public partial class Create_account : System.Web.UI.Page
         return imaLi;
     }
 
-    protected void Username_TextChanged(object sender, EventArgs e)
+    protected void backButton_Click(object sender, EventArgs e)
     {
-        //Username.Text = "desba";
-        //TODO: Staviti da se dinamički provjerava je li ime dostupno
+        Response.Redirect("../login.aspx");
     }
 }

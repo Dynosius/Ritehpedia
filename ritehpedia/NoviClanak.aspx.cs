@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using System.IO;
 
 public partial class NoviClanak : System.Web.UI.Page
 {
@@ -54,11 +55,18 @@ public partial class NoviClanak : System.Web.UI.Page
 
     protected void ObjaviClanakClick(object sender, EventArgs e)
     {
+        //kod vezan za upload fileova
+        string filename = Path.GetFileName(FileUpload1.PostedFile.FileName);
+        string contentType = FileUpload1.PostedFile.ContentType;
+        Stream fs = FileUpload1.PostedFile.InputStream;
+        BinaryReader br = new BinaryReader(fs);
+        byte[] bytes = br.ReadBytes((Int32)fs.Length);
+
         using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
         {
             conn.Open();
-            string queryStr = "INSERT INTO Clanak (idKolegij, idKategorija, naslov, sadrzaj) VALUES (@idKolegija, @idKategorija, @naslov, @sadrzaj)";
-            
+            string queryStr = "INSERT INTO Clanak (idKolegij, idKategorija, naslov, sadrzaj, attachment, fileName, contentType) VALUES (@idKolegija, @idKategorija, @naslov, @sadrzaj, @attachment, @fileName, @contentType)";
+
             SqlCommand sqlCmd = new SqlCommand(queryStr, conn);
             string kolegij = KolegijiDropDown.SelectedValue;
             string kategorija = KategorijeDropDown.SelectedValue;
@@ -67,11 +75,14 @@ public partial class NoviClanak : System.Web.UI.Page
             sqlCmd.Parameters.AddWithValue("@idKategorija", kategorija);
             sqlCmd.Parameters.AddWithValue("@naslov", naslov);
             sqlCmd.Parameters.AddWithValue("@sadrzaj", textareaNoviClanak.InnerText);
-            
+            sqlCmd.Parameters.AddWithValue("@attachment", bytes);
+            sqlCmd.Parameters.AddWithValue("@fileName", filename);
+            sqlCmd.Parameters.AddWithValue("@contentType", contentType);
+
             int x = sqlCmd.ExecuteNonQuery();
             if (x > 0)
             {
-                
+
                 AddToOtherTable(naslov, kategorija, kolegij, conn);
             }
             else
@@ -82,7 +93,7 @@ public partial class NoviClanak : System.Web.UI.Page
         }
     }
 
-    protected void AddToOtherTable(String naslov, String kategorija, String kolegij,  SqlConnection conn)
+    protected void AddToOtherTable(String naslov, String kategorija, String kolegij, SqlConnection conn)
     {
         string queryString = "SELECT idClanak FROM Clanak WHERE naslov=@naslov AND idKategorija=@idKategorija AND idKolegij=@idKolegij";
         string queryStr2 = "INSERT INTO Student_ureduje_clanak (idClanak, idStudent, datumIzmjene) VALUES (@idClanak, @idStudent, @datum)";
