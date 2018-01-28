@@ -86,12 +86,12 @@ public partial class MasterPage : System.Web.UI.MasterPage
         Response.Redirect("NoviClanak.aspx");
     }
 
-    protected void Trazi_Click(object sender, EventArgs e) //dodano, nije implementirano
+    protected void Trazi_Click(object sender, EventArgs e)
     {
         string trazi = TraziText.Text;
         if (trazi != String.Empty) { 
             trazi = trazi.ToLower().Replace(" ","+");
-            trazi = "Trazi.aspx?tag=" + trazi;
+            trazi = "Trazi.aspx?idstudij=" + sesija.StudijID + "&tag=" + trazi;
             Response.Redirect(trazi);
         }
     }

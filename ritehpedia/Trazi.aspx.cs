@@ -11,14 +11,16 @@ using System.Data;
 public partial class Trazi : System.Web.UI.Page
 {
     string trazi;
+    string id_studij;
     string[] separators = { ",", ".", "!", "?", ";", ":", " ", "+", "-" };
     string[] result;
     protected void Page_Load(object sender, EventArgs e)
     {
+        id_studij = this.Request.QueryString["idstudij"];
         trazi = this.Request.QueryString["tag"];
         result = trazi.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
-        if (trazi != null)
+        if (id_studij != null || trazi != null)
         {
             ClanakRepeater.DataSource = VratiClanke();
             ClanakRepeater.DataBind();
@@ -35,7 +37,7 @@ public partial class Trazi : System.Web.UI.Page
 
             for(int i=0; i<result.Length; i++)
             {
-                string query = "SELECT idClanak, naslov FROM Clanak WHERE tags LIKE '" + result[i] + "' ORDER BY brojPregleda DESC";
+                string query = "SELECT C.idClanak, C.naslov FROM Clanak C INNER JOIN Kolegij K on C.idKolegij=K.idKolegij INNER JOIN Studij_Kolegij S on K.idKolegij=S.idKolegij WHERE S.idStudij='" + id_studij + "' AND C.tags LIKE '%" + result[i] + "%' ORDER BY C.brojPregleda DESC";
                 sqlData = new SqlDataAdapter(query, conn);
                 sqlData.Fill(ds, "clanci");
             } 
