@@ -31,11 +31,11 @@ public partial class index : System.Web.UI.Page
             string query;
             if (idKategorije == null)
             {
-                query = "SELECT idClanak, naslov FROM Clanak WHERE idKolegij=" + idKolegija;
+                query = "SELECT idClanak, naslov FROM Clanak WHERE idKolegij=" + idKolegija + "ORDER BY brojPregleda DESC";
             }
             else
             {
-                query = "SELECT idClanak, naslov FROM Clanak WHERE idKolegij=" + idKolegija + " AND idKategorija=" + idKategorije;
+                query = "SELECT idClanak, naslov FROM Clanak WHERE idKolegij=" + idKolegija + " AND idKategorija=" + idKategorije + "ORDER BY brojPregleda DESC";
             }
 
             DataSet ds = new DataSet();
@@ -45,12 +45,13 @@ public partial class index : System.Web.UI.Page
         }
     }
 
-    protected void prikazIncrement(string id)
+    protected void prikazIncrement(string id) //ne radi increment broja prikaza
     {
         string query;
         int result;
         using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
         {
+            conn.Open();
             query = "SELECT brojPregleda FROM Clanak WHERE idClanak = " + id; //izmijenio
             SqlCommand com = new SqlCommand(query, conn);
             SqlDataReader read = com.ExecuteReader();

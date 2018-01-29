@@ -15,15 +15,15 @@ public partial class MasterPage : System.Web.UI.MasterPage
         sesija = Session["User"] as UserSession;
 
         List<MeniItem> meni = new List<MeniItem>();
-        meni.Add(new MeniItem("Naslovna", "../index.aspx"));
-        meni.Add(new MeniItem("About", "../about.aspx", true));
+        meni.Add(new MeniItem("Naslovna", "index.aspx"));
+        meni.Add(new MeniItem("About", "about.aspx", true));
 
         if (sesija == null)
         {
-            meni.Add(new MeniItem("Login", "../login.aspx"));
+            meni.Add(new MeniItem("Login", "login.aspx"));
         }
-        meni.Add(new MeniItem("Vijesti", "../vijesti.aspx"));
-        meni.Add(new MeniItem("Kontakti", "../kontakt.aspx"));
+        meni.Add(new MeniItem("Vijesti", "vijesti.aspx"));
+        meni.Add(new MeniItem("Kontakti", "kontakt.aspx"));
         MenuRepeter.DataSource = meni;
         MenuRepeter.DataBind();
         if (sesija != null)
@@ -38,6 +38,8 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
             ProfileBtn.Visible = true;
             NoviClanakBtn.Visible = true;
+            TraziButton.Visible = true;
+            TraziText.Visible = true;
         }
 
     }
@@ -82,5 +84,16 @@ public partial class MasterPage : System.Web.UI.MasterPage
     protected void NoviClanakBtn_Click(object sender, EventArgs e)
     {
         Response.Redirect("NoviClanak.aspx");
+    }
+
+    protected void Trazi_Click(object sender, EventArgs e)
+    {
+        string trazi = TraziText.Text;
+        if (trazi != String.Empty)
+        {
+            trazi = trazi.ToLower().Replace(" ", "+");
+            trazi = "Trazi.aspx?idstudij=" + sesija.StudijID + "&tag=" + trazi;
+            Response.Redirect(trazi);
+        }
     }
 }
