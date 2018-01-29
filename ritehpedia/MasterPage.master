@@ -5,72 +5,220 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" />
+    <link rel="icon" type="image/png" href="slike/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <link rel="stylesheet" href="static/bulma.css.map" />
+    <link href="static/bulma.css" rel="stylesheet" />
+    <script src="static/fontawesome-all.js"></script>
     <title>Ritehpedia</title>
+    <style>
+        #Content {
+            padding-top: 1em;
+            background-color: White;
+        }
+
+        #Navbarmain {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1
+        }
+
+        #sidebar-left {
+            float: left;
+            width: 32,5%;
+        }
+
+        #main {
+            float: left;
+            width: 70%;
+        }
+
+        #footer {
+            clear: both;
+            height: 50px;
+            width: 100%;
+            text-align: center;
+        }
+
+        #sidebar-left, #main, #sidebar-right {
+            min-height: 600px
+        }
+    </style>
+
 </head>
 <body>
     <form id="form1" runat="server">
+
+
         <header>
-            <div class="blog-masthead" style="background-color: aquamarine">
-                <div class="container-fluid">
-                    <img src="slike/riteh_naslovnica.png" height="100" />
-                </div>
-                <div>
-                    <!--CausesValidation="False" obavezno-->
-                    <asp:Button runat="server" ID="ProfileBtn" Text="Profil" CssClass="btn btn-primary" OnClick="profilClicked" Style="float: right;" Width="96px" Visible="false" CausesValidation="False"/>
-                    <asp:Button runat="server" ID="NoviClanakBtn" Text="Novi Članak" CssClass="btn btn-primary" OnClick="NoviClanakBtn_Click" Style="float:right;" Visible="false" CausesValidation="False"/>
-                    <!--Dodana trazilica-->
-                    <div>
-                        <asp:Button runat="server" ID="TraziButton" Text="Trazi" CssClass="btn btn-primary" OnClick="Trazi_Click" Style="float:right;" Visible="false" Width="83px" CausesValidation="False"/>
-                        <asp:TextBox runat="server" ID="TraziText" Visible="false" CssClass="float-right" Width="193px"></asp:TextBox>
+
+            <section class="hero is-light is-bold is-medium ">
+                <div class="hero-body">
+                    <div class="container">
+                        <div align="center">
+                            <img align="middle" src="slike/unnamed%20(1).png" />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
+
+            <nav class="navbar is-active is-link " id="Navbarmain">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="index.aspx">
+                        <img src="slike/tehfaks.jpg" width="112" height="28" />
+                    </a>
+                    <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+
+                <div id="navbarExampleTransparentExample" class="navbar-menu">
+                    <div class="navbar-start">
+                        <a class="navbar-item" href="index.aspx">Home
+                        </a>
+                        <a class="navbar-item" href="About.aspx">About
+                        </a>
+                        <a class="navbar-item" href="Vijesti.aspx">Vijesti
+                        </a>
+                        <a class="navbar-item" href="kontakt.aspx">Kontakt
+                        </a>
+                        <div class="navbar-item has-dropdown is-hoverable" id="DropDownKolegij" visible="false" runat="server">
+                            <a class="navbar-link" href="#">Kolegiji
+                            </a>
+                            <div class="navbar-dropdown is-boxed" runat="server" style="overflow: scroll; height: 500px">
+                                <asp:Repeater runat="server" ID="dbContent" OnItemDataBound="dbContent_ItemDataBound">
+                                    <ItemTemplate>
+                                        <li class="nav-item">
+                                            <a class="navbar-item" href="index.aspx?idKolegija=<%# Eval("idKolegij") %>"><%# Eval("imeKolegija") %></a>
+                                        </li>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="field is-grouped">
+                                <div>
+                                    <asp:Button runat="server" ID="AdminPageBtn" Text="Admin" CssClass="button is-white" OnClick="AdminPageBtn_Click" Visible="false" />
+
+                                </div>
+                                &nbsp; &nbsp
+                                <p class="control">
+                                    <a runat="server" id="NoviClanakbuton" class="bd-tw-button button" href="NoviClanak.aspx" visible="false">
+                                        <span class="icon">
+                                            <i class="far fa-file"></i>
+                                        </span>
+                                        <span>Novi Članak
+                                        </span>
+                                    </a>
+                                </p>
+                                <p class="control">
+                                    <a runat="server" id="EditProfile" class="button is-success" href="Profil.aspx" visible="false">
+                                        <span class="icon">
+                                            <i class="far fa-user"></i>
+                                        </span>
+                                        <span>Profil</span>
+                                    </a>
+                                </p>
+                                <p class="control">
+                                    <a runat="server" id="LoginBtn" class="button is-primary" href="Login.aspx" visible="true">
+                                        <span class="icon">
+                                            <i class="far fa-user"></i>
+                                        </span>
+                                        <span>Login</span>
+                                    </a>
+                                </p>
+                                <p class="control">
+                                    <a runat="server" id="LogoutBtn" class="button is-primary" visible="false" href="Logout.aspx">
+                                        <span class="icon">
+                                            <i class="far fa-user"></i>
+                                        </span>
+                                        <span>Logout</span>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
         </header>
-        <footer class="fixed-bottom" style="background-color: aquamarine">
-            <div class="container" style="text-align: center">
-                <img src="slike/riteh_logo.gif" height="100" />
+
+
+        <div id="sidebar-left">
+            <div class="card-content" runat="server" id="Korisnik" visible="false" style="width: 500px;">
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-48x48">
+                            <img src="slike/96x96.png" alt="Placeholder image">
+                        </figure>
+                    </div>
+                    <div class="text-capitalize">
+                        <p class="title is-6" id="Studij" runat="server"></p>
+                        <p class="subtitle is-4" id="Userime" runat="server"></p>
+                    </div>
+                </div>
+                <br />
+                <aside class="menu">
+                    <a class="button is-info is-block is-alt is-large" href="NoviClanak.aspx"><span class="icon">
+                        <i class="far fa-file"></i>
+                    </span>
+                        <span>Novi Članak
+                        </span>
+
+                    </a>
+                    <br />
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            
+                            <asp:TextBox runat="server" ID="TraziText" Style="width: 375px" CssClass="input">
+
+                            </asp:TextBox>
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-search"></i>
+                            </span>
+
+                            <asp:Button runat="server" ID="TraziButton" Text="Traži" CssClass=" button is-link" CausesValidation="False" />
+
+                        </div>
+                    </div>
             </div>
-        </footer>
-        <asp:Label runat="server" ID="imeStudija">
 
-        </asp:Label>
-        <div class="container-fluid">
-            <div class="row">
-                <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
-                    <ul class="nav nav-pills flex-column">
-                        <asp:Repeater ID="MenuRepeter" runat="server">
-                            <ItemTemplate>
-                                <li class="nav-item">
-                                    <a class="nav-link <%# Eval("ActiveCssClass") %>" href="<%# Eval("Url") %>"><%# Eval("Text") %></a>
-                                    <!-- Eval() dohvati vrijednost varijable iz objekta (instance) -->
-                                </li>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                        <asp:Repeater runat="server" ID="dbContent" OnItemDataBound="dbContent_ItemDataBound">
-                            <ItemTemplate>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="index.aspx?idKolegija=<%# Eval("idKolegij") %>"><%# Eval("imeKolegija") %></a>
-                                    <asp:Repeater runat="server" ID="KategorijaRepeater">
-                                        <ItemTemplate>
-                                            <li class="nav-link">
-                                                <a class="nav-link" href="index.aspx?idKategorije=<%# Eval("idKategorija") %>&idKolegija=<%# Eval("idKolegija") %>"><%# Eval("imeKategorije") %></a>
-                                            </li>
-                                        </ItemTemplate>
-                                    </asp:Repeater>
-                                </li>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </ul>
-                </nav>
+            <!-- <p class="menu-label">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        <li><a>Moj Profil</a></li>
+                        <li><a>Moji Članci</a></li>
+                        <li><a>Moji Kolegiji</a></li>
+                    </ul> -->
 
-                <main class="col-sm-9 ml-sm-auto col-md-10 pt-3">
-                    <asp:ContentPlaceHolder ID="ContentPlaceHolderMaster" runat="server"></asp:ContentPlaceHolder>
-                </main>
+            </aside>
+        </div>
+        </div>
+        <div id="main" runat="server">
+            <div id="Content">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolderMaster" runat="server">
+                </asp:ContentPlaceHolder>
             </div>
         </div>
+        <div id="footer">
+            <footer class="footer">
+                <figure class="image">
+                    <img style="opacity: 0.2; height: 200px; width: 500px; margin-right: auto; margin-left: auto;" src="slike/unnamed%20(1).png">
+                </figure>
+            </footer>
+        </div>
     </form>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://v4-alpha.getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+
 </body>
 </html>

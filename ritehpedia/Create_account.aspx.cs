@@ -49,10 +49,12 @@ public partial class Create_account : System.Web.UI.Page
         using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
         {
             connection.Open();
+
+            string encryptedPass = FormsAuthentication.HashPasswordForStoringInConfigFile(pass.Trim(), "SHA1");
             String query = "INSERT INTO dbo.Student (Korisnicko_ime, Lozinka, UlogaID, Ime, Prezime, Adresa, Grad, Datum_rod, Email, broj_tel, idStudij) VALUES (@Uname, @pass, 3, @name, @lastname, @adress, @city, @date, @email, @phone, @studijID)";
             SqlCommand sqlCmd = new SqlCommand(query, connection);
             sqlCmd.Parameters.AddWithValue("@Uname", Uname.Trim());
-            sqlCmd.Parameters.AddWithValue("@pass", pass.Trim());
+            sqlCmd.Parameters.AddWithValue("@pass", encryptedPass);
             sqlCmd.Parameters.AddWithValue("@name", name.Trim());
             sqlCmd.Parameters.AddWithValue("@lastname", lastname.Trim());
             sqlCmd.Parameters.AddWithValue("@city", city.Trim());

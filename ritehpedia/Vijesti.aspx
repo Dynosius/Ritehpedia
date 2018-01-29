@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="vijesti.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolderMaster" Runat="Server">
-    <div>
+    <div class="content">
         <h1>Ritehpedia u razvoju</h1>
         <hr />
         <p>Stranica ritehpedia još uvijek je u razvoju i nedostupna je za korištenje. Molimo Vas na strpljene do izlaska prve stabilne verzije.</p>

@@ -14,21 +14,15 @@ public partial class MasterPage : System.Web.UI.MasterPage
         idKolegijaIzURL = Convert.ToInt32(this.Request.QueryString["idKolegija"]);
         sesija = Session["User"] as UserSession;
 
-        List<MeniItem> meni = new List<MeniItem>();
-        meni.Add(new MeniItem("Naslovna", "index.aspx"));
-        meni.Add(new MeniItem("About", "about.aspx", true));
-
-        if (sesija == null)
-        {
-            meni.Add(new MeniItem("Login", "login.aspx"));
-        }
-        meni.Add(new MeniItem("Vijesti", "vijesti.aspx"));
-        meni.Add(new MeniItem("Kontakti", "kontakt.aspx"));
-        MenuRepeter.DataSource = meni;
-        MenuRepeter.DataBind();
         if (sesija != null)
         {
-            imeStudija.Text = sesija.StudijIme + " - " + sesija.Username;
+            
+            if (UserSession.IsAdmin(Session))
+            {
+                AdminPageBtn.Visible = true;
+            }
+            Studij.InnerText = sesija.StudijIme;
+            Userime.InnerText = sesija.Username;
 
             string tableName = "imeKolegija";
             DataSet ds = LoadDataFromDB("SELECT KO.idKolegij, imeKolegija, Semestar FROM Kolegij KO INNER JOIN Studij_Kolegij SK ON SK.idKolegij = KO.idKolegij " +
@@ -36,10 +30,18 @@ public partial class MasterPage : System.Web.UI.MasterPage
             dbContent.DataSource = ds.Tables[tableName].DefaultView;
             dbContent.DataBind();
 
-            ProfileBtn.Visible = true;
-            NoviClanakBtn.Visible = true;
+            LoginBtn.Visible = false;
+            EditProfile.Visible = true;
+            NoviClanakbuton.Visible = true;
+            DropDownKolegij.Visible = true;
+            LogoutBtn.Visible = true;
+            Korisnik.Visible = true;
             TraziButton.Visible = true;
             TraziText.Visible = true;
+        }
+        else
+        {
+            main.Style.Add("width", "100%");
         }
 
     }
@@ -95,5 +97,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
             trazi = "Trazi.aspx?idstudij=" + sesija.StudijID + "&tag=" + trazi;
             Response.Redirect(trazi);
         }
+    }
+
+    protected void AdminPageBtn_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("AdminPage.aspx");
     }
 }

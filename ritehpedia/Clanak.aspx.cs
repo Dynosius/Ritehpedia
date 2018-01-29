@@ -23,7 +23,7 @@ public partial class Clanak : System.Web.UI.Page
         //prikaz clanka
         if (idClanka != null)
         {
-            naslovLabel.Text = WhatQueryReturns("naslov");
+            naslovLabel.InnerText = WhatQueryReturns("naslov");
             clanakLabel.Text = WhatQueryReturns("sadrzaj");
             brPregledaLabel.Text = "Broj pregleda: " + VratiBrojPregleda();
             downloadLabel.Text = AttachmentName(); //prikaz attachment

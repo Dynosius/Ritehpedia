@@ -11,8 +11,6 @@ using System.Data;
 
 public partial class Admin_AdminPage : System.Web.UI.Page
 {
-    private string KI_old;
-    //DataSet dsRoles, dsUsers;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (UserSession.IsAdmin(Session))
@@ -22,7 +20,6 @@ public partial class Admin_AdminPage : System.Web.UI.Page
                 DisplayRolesInGrid();
                 DisplayUsersTable();
             }
-            
         }
         else
         {
@@ -110,7 +107,7 @@ public partial class Admin_AdminPage : System.Web.UI.Page
     protected void UserListGridView_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
         var oldValues = ViewState["dsUsers"];
-        var oldUsername = ((DataSet)oldValues).Tables[0].Rows[0].ItemArray[0].ToString();
+        var oldUsername = ((DataSet)oldValues).Tables[0].Rows[e.RowIndex].ItemArray[0].ToString();
         var newValues = e.NewValues;
         //var a = newValues[0];
         using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString))
@@ -119,11 +116,10 @@ public partial class Admin_AdminPage : System.Web.UI.Page
             string query = "UPDATE Student SET Korisnicko_ime=@KI, UlogaID=@ulogaid, Email=@email, Ime=@ime, Prezime=@prezime, idStudij=@idstudij, Adresa=@adresa, Grad=@grad WHERE Korisnicko_ime = @KI_old";
             //string query = "UPDATE Student SET Korisnicko_ime=@KI WHERE Korisnicko_ime = @KI_old";
             SqlCommand sqlCmd = new SqlCommand(query, conn);
-            //sqlCmd.Parameters.Add("@KI", SqlDbType.NVarChar);
-            //sqlCmd.Parameters["@KI"].Value = newValues[0];
             sqlCmd.Parameters.AddWithValue("@KI", newValues[0]);
-            sqlCmd.Parameters.Add("@ulogaid", SqlDbType.TinyInt);
-            sqlCmd.Parameters["@ulogaid"].Value = Convert.ToByte(newValues[1]);
+            sqlCmd.Parameters.AddWithValue("@ulogaid", newValues[1]);
+            //sqlCmd.Parameters.Add("@ulogaid", SqlDbType.TinyInt);
+            //sqlCmd.Parameters["@ulogaid"].Value = Convert.ToByte(newValues[1]);
             sqlCmd.Parameters.AddWithValue("@email", newValues[2]);
             sqlCmd.Parameters.AddWithValue("@ime", newValues[3]);
             sqlCmd.Parameters.AddWithValue("@prezime", newValues[4]);
@@ -132,8 +128,6 @@ public partial class Admin_AdminPage : System.Web.UI.Page
             sqlCmd.Parameters.AddWithValue("@grad", newValues[7]);
             sqlCmd.Parameters.AddWithValue("@datum", newValues[8]);
             sqlCmd.Parameters.AddWithValue("@KI_old", oldUsername);
-            //sqlCmd.Parameters.Add("@KI_old", SqlDbType.NVarChar);
-            //sqlCmd.Parameters["@KI_old"].Value = oldUsername;
             int x = sqlCmd.ExecuteNonQuery();
             if (x > 0)
             {

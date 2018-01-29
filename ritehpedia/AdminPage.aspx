@@ -8,7 +8,7 @@
 &nbsp;</b><asp:TextBox ID="RoleName" runat="server"></asp:TextBox>
         <br />
         <asp:Button ID="CreateRoleButton" runat="server" Text="Create Role" OnClick="CreateRoleButton_Click1" />
-        <asp:GridView ID="RoleList" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Horizontal">
+        <asp:GridView ID="RoleList" runat="server" OnRowDeleting="RoleList_RowDeleting" AutoGenerateColumns="False" BackColor="White" BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Horizontal">
             <AlternatingRowStyle BackColor="#F7F7F7" />
             <Columns>
                 <asp:TemplateField HeaderText="Role">
